@@ -19,6 +19,7 @@ import DefaultLayout from './layout/DefaultLayout';
 import WorkReport from './components/WorkReport'; // Thêm import cho WorkReport
 import EmployeeList from './components/EmployeeList';
 import EmployeeReports from './components/EmployeeReports';
+import RoleList from './components/RoleList';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -169,6 +170,16 @@ function App() {
             <>
               <PageTitle title="Employee Reports | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <EmployeeReports />
+            </>
+          }
+        />
+        {/* RoleList */}
+        <Route
+          path="/role-list" // Thêm route cho RoleList
+          element={
+            <>
+              <PageTitle title="Role List | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <RoleList />
             </>
           }
         />

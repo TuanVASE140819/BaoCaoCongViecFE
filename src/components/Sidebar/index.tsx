@@ -127,6 +127,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 </NavLink>
               </li>
               <li>
+                {/* Danh sách chức vụ */}
+                <NavLink
+                  to="/role-list"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('role-list') &&
+                    'bg-graydark dark:bg-meta-4'
+                  }`}
+                >
+                  <svg
+                    className="fill-current"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9 0C4.02944 0 0 4.02944 0 9C0 13.9706 4.02944 18 9 18C13.9706 18 18 13.9706 18 9C18 4.02944 13.9706 0 9 0ZM9 16.2C4.9776 16.2 1.8 13.0224 1.8 9C1.8 4.9776 4.9776 1.8 9 1.8C13.0224 1.8 16.2 4.9776 16.2 9C16.2 13.0224 13.0224 16.2 9 16.2Z"
+                      fill=""
+                    />
+                    <path d="M9.9 4.5H8.1V9.9H13.5V8.1H9.9V4.5Z" fill="" />
+                  </svg>
+                  Danh sách chức vụ
+                </NavLink>
+              </li>
+              <li>
                 <NavLink
                   to="/employee-list"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
