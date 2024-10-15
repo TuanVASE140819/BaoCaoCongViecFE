@@ -17,6 +17,11 @@ export const _myAccount = {
   displayName: 'Jaydon Frankie',
   email: 'demo@minimals.cc',
   photoURL: '/assets/images/avatar/avatar-25.webp',
+  role: 'User',
+};
+
+export const setMyAccount = (account: Partial<typeof _myAccount>) => {
+  Object.assign(_myAccount, account);
 };
 
 // ----------------------------------------------------------------------
@@ -124,7 +129,7 @@ export const _timeline = [...Array(5)].map((_, index) => ({
     '1983, orders, $4220',
     '12 Invoices have been paid',
     'Order #37745 from September',
-    'New order placed #XF-2356',
+    'New order #XF-2356',
     'New order placed #XF-2346',
   ][index],
   type: `order${index + 1}`,
