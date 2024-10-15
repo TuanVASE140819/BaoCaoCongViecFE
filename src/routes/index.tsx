@@ -23,6 +23,14 @@ function AppRoutes() {
           <Route path="/user" element={<UserPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/blog" element={<BlogPage />} />
+          <Route
+            path="/roles"
+            element={
+              <div>
+                <h1>Roles</h1>
+              </div>
+            }
+          />
         </Route>
         <Route path="*" element={<Page404 />} />
       </Routes>

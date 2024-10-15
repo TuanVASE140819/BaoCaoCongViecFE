@@ -8,6 +8,7 @@ import { varAlpha } from 'src/theme/styles';
 import { AuthLayout } from 'src/layouts/auth';
 import { DashboardLayout } from 'src/layouts/dashboard';
 import PrivateRoute from 'src/routes/PrivateRoute';
+import RolesPage from 'src/pages/roles';
 
 // ----------------------------------------------------------------------
 
@@ -50,6 +51,7 @@ export function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
+        { path: 'roles', element: <RolesPage /> },
       ],
     },
     {
