@@ -10,27 +10,41 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
-
+import { useLogin } from 'src/hooks/useLogin';
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
 export function SignInView() {
   const router = useRouter();
+  const { handleLogin, loading, error } = useLogin();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSignIn = useCallback(() => {
-    router.push('/');
-  }, [router]);
+  const onSubmit = useCallback(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
+      await handleLogin(email, password);
+    },
+    [email, password, handleLogin]
+  );
 
   const renderForm = (
-    <Box display="flex" flexDirection="column" alignItems="flex-end">
+    <Box
+      component="form"
+      onSubmit={onSubmit}
+      display="flex"
+      flexDirection="column"
+      alignItems="flex-end"
+    >
       <TextField
         fullWidth
         name="email"
         label="Email address"
-        defaultValue="hello@gmail.com"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         InputLabelProps={{ shrink: true }}
         sx={{ mb: 3 }}
       />
@@ -43,7 +57,8 @@ export function SignInView() {
         fullWidth
         name="password"
         label="Password"
-        defaultValue="@demo1234"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         InputLabelProps={{ shrink: true }}
         type={showPassword ? 'text' : 'password'}
         InputProps={{
@@ -58,13 +73,15 @@ export function SignInView() {
         sx={{ mb: 3 }}
       />
 
+      {/* {error && <Typography color="error">{error.message}</Typography>} */}
+
       <LoadingButton
         fullWidth
         size="large"
         type="submit"
         color="inherit"
         variant="contained"
-        onClick={handleSignIn}
+        loading={loading}
       >
         Sign in
       </LoadingButton>
