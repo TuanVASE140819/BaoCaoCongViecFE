@@ -12,12 +12,14 @@ import {
 } from './_mock';
 
 // ----------------------------------------------------------------------
+const user = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
 export const _myAccount = {
-  displayName: 'Jaydon Frankie',
-  email: 'demo@minimals.cc',
-  photoURL: '/assets/images/avatar/avatar-25.webp',
-  role: 'User',
+  id: user.id || '1',
+  displayName: user.tenNhanVien || 'Guest',
+  email: user.email || ' ',
+  photoURL: user.photoURL || '/assets/images/avatar/avatar-default.webp',
+  role: user.role || ' ',
 };
 
 export const setMyAccount = (account: Partial<typeof _myAccount>) => {

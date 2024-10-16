@@ -29,6 +29,7 @@ export type AccountPopoverProps = IconButtonProps & {
 };
 
 export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { handleLogout } = useLogin();
 
   const router = useRouter();
@@ -52,7 +53,16 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
     },
     [handleClosePopover, router]
   );
-
+  const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleLogoutClick = () => {
+    handleLogout();
+    handleClose();
+  };
   return (
     <>
       <IconButton
@@ -132,7 +142,7 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth color="error" size="medium" variant="text" onClick={handleLogout}>
+          <Button fullWidth color="error" size="medium" variant="text" onClick={handleLogoutClick}>
             Logout
           </Button>
         </Box>

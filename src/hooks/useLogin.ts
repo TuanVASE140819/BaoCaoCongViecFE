@@ -17,12 +17,9 @@ export function useLogin() {
         localStorage.setItem('token', data.token);
         const userInfo = await getUserInfo(data.token);
         console.log('User Info:', userInfo);
-        setMyAccount({
-          displayName: userInfo.tenNhanVien,
-          email: userInfo.email,
-          photoURL: '/assets/images/avatar/avatar-25.webp', // Bạn có thể cập nhật URL ảnh đại diện nếu có
-          role: userInfo.IDRole.tenVaiTro,
-        });
+        // lưu thông tin người dùng vào localStorage
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
         router.push('/');
       } else {
         throw new Error('Đăng nhập thất bại!');
@@ -33,9 +30,9 @@ export function useLogin() {
       setLoading(false);
     }
   };
-
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userInfo'); // Xóa thông tin người dùng khỏi localStorage
     router.push('/sign-in');
   };
 

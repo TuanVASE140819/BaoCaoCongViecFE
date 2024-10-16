@@ -4,6 +4,7 @@ import MenuPage from 'src/pages/menu';
 import BlogPage from 'src/pages/blog';
 import UserPage from 'src/pages/user';
 import ProductsPage from 'src/pages/products';
+import ReportPage from 'src/pages/report';
 import Page404 from 'src/pages/page-not-found';
 import PrivateRoute from './PrivateRoute';
 
@@ -32,6 +33,7 @@ function AppRoutes() {
             }
           />
         </Route>
+        <Route path="/report" element={<ReportPage />} />
         <Route path="*" element={<Page404 />} />
       </Routes>
     </Router>

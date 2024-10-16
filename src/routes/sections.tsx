@@ -9,6 +9,7 @@ import { AuthLayout } from 'src/layouts/auth';
 import { DashboardLayout } from 'src/layouts/dashboard';
 import PrivateRoute from 'src/routes/PrivateRoute';
 import RolesPage from 'src/pages/roles';
+import ReportPage from 'src/pages/report';
 
 // ----------------------------------------------------------------------
 
@@ -52,6 +53,7 @@ export function Router() {
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
         { path: 'roles', element: <RolesPage /> },
+        { path: 'report', element: <ReportPage /> },
       ],
     },
     {
