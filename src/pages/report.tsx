@@ -1,85 +1,183 @@
-import { useState } from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
+import { useState, useEffect, useCallback } from 'react';
+import {
+  Box,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Button,
+  Typography,
+  TextField,
+  Grid,
+} from '@mui/material';
+import { fetchEmployeeReport, createReport, updateReport } from 'src/services/reportService';
 
-function ReportPage() {
+// Component DateSelector: Chọn ngày
+function DateSelector({ selectedDate, onDateChange }: { selectedDate: string; onDateChange: any }) {
+  return (
+    <TextField
+      label="Chọn ngày"
+      type="date"
+      value={selectedDate}
+      onChange={onDateChange}
+      InputLabelProps={{
+        shrink: true,
+      }}
+      fullWidth
+    />
+  );
+}
+
+// Component ReportInput: Tạo input cho từng báo cáo
+function ReportInput({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+}) {
+  return (
+    <TextField
+      label={label}
+      multiline
+      rows={4}
+      value={value}
+      onChange={onChange}
+      fullWidth
+      variant="outlined"
+      sx={{ mb: 3 }}
+    />
+  );
+}
+
+// Component ReportCard: Chứa phần báo cáo
+function ReportCard({
+  todayReport,
+  setTodayReport,
+  tomorrowReport,
+  setTomorrowReport,
+}: {
+  todayReport: string;
+  setTodayReport: any;
+  tomorrowReport: string;
+  setTomorrowReport: any;
+}) {
+  return (
+    <Card>
+      <CardHeader title="Báo cáo công việc" />
+      <CardContent>
+        <ReportInput
+          label="Báo cáo hôm nay"
+          value={todayReport}
+          onChange={(e) => setTodayReport(e.target.value)}
+        />
+        <ReportInput
+          label="Kế hoạch cho ngày mai"
+          value={tomorrowReport}
+          onChange={(e) => setTomorrowReport(e.target.value)}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
+export default function ReportPage() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [todayReport, setTodayReport] = useState('');
   const [tomorrowReport, setTomorrowReport] = useState('');
+  const [reportId, setReportId] = useState<string | null>(null);
+
+  const user = JSON.parse(localStorage.getItem('userInfo') || '{}');
+
+  const fetchReport = useCallback(
+    async (date: string) => {
+      try {
+        const report = await fetchEmployeeReport(user._id, date);
+        if (report.length > 0) {
+          setTodayReport(report[0].noiDungHomNay);
+          setTomorrowReport(report[0].noiDungDuKienNgayMai);
+          setReportId(report[0]._id); // Lưu lại ID của báo cáo
+        } else {
+          setTodayReport('');
+          setTomorrowReport('');
+          setReportId(null);
+        }
+      } catch (error) {
+        console.error('Failed to fetch report:', error);
+      }
+    },
+    [user._id]
+  );
+
+  useEffect(() => {
+    fetchReport(selectedDate);
+  }, [selectedDate, fetchReport]);
 
   const handleDateChange = (event: any) => {
     setSelectedDate(event.target.value);
   };
 
-  const handleTodayReport = () => {
-    setSelectedDate(new Date().toISOString().split('T')[0]);
-  };
-
-  const handleTomorrowReport = () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    setSelectedDate(tomorrow.toISOString().split('T')[0]);
-  };
-
-  const handleSave = () => {
+  const handleSave = async () => {
     console.log('Save button clicked');
-    console.log('Today Report:', todayReport);
-    console.log('Tomorrow Report:', tomorrowReport);
-    // Thêm logic lưu báo cáo ở đây
+    console.log('Báo cáo hôm nay:', todayReport);
+    console.log('Kế hoạch ngày mai:', tomorrowReport);
+
+    const reportData = {
+      ngayBaoCao: selectedDate,
+      noiDungHomNay: todayReport,
+      noiDungDuKienNgayMai: tomorrowReport,
+      IDnhanVien: user._id,
+    };
+
+    try {
+      if (reportId) {
+        await updateReport(reportId, reportData);
+      } else {
+        await createReport(reportData);
+      }
+      alert('Báo cáo đã được lưu thành công!');
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Đã xảy ra lỗi khi lưu báo cáo.');
+    }
+
+    setTodayReport('');
+    setTomorrowReport('');
+  };
+
+  const handleClear = () => {
+    setTodayReport('');
+    setTomorrowReport('');
   };
 
   return (
-    <>
-      <div>
-        <Box sx={{ p: 3 }}>
-          <Typography variant="h4" gutterBottom>
-            Work Report
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-            <TextField
-              label="Select Date"
-              type="date"
-              value={selectedDate}
-              onChange={handleDateChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <Button variant="contained" color="primary" onClick={handleSave}>
-              Lưu
-            </Button>
-          </Box>
-          <Card>
-            <CardHeader title="Work Report" />
-            <CardContent>
-              <TextField
-                label="Báo cáo hôm nay"
-                multiline
-                rows={4}
-                value={todayReport}
-                onChange={(e) => setTodayReport(e.target.value)}
-                fullWidth
-                sx={{ mb: 3 }}
-              />
-              <TextField
-                label="Báo cáo ngày mai"
-                multiline
-                rows={4}
-                value={tomorrowReport}
-                onChange={(e) => setTomorrowReport(e.target.value)}
-                fullWidth
-              />
-            </CardContent>
-          </Card>
-        </Box>
-      </div>
-    </>
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h4" gutterBottom>
+        Báo cáo công việc
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <DateSelector selectedDate={selectedDate} onDateChange={handleDateChange} />
+        </Grid>
+        <Grid item xs={12}>
+          <ReportCard
+            todayReport={todayReport}
+            setTodayReport={setTodayReport}
+            tomorrowReport={tomorrowReport}
+            setTomorrowReport={setTomorrowReport}
+          />
+        </Grid>
+      </Grid>
+      <CardActions sx={{ justifyContent: 'flex-end', mt: 2 }}>
+        <Button variant="contained" color="secondary" onClick={handleClear} sx={{ mr: 2 }}>
+          Xóa báo cáo
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleSave}>
+          Lưu báo cáo
+        </Button>
+      </CardActions>
+    </Box>
   );
 }
-
-export default ReportPage;
