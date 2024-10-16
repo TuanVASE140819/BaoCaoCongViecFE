@@ -39,3 +39,11 @@ export const updateReport = async (reportId: string, reportData: any) => {
   }
   return response.json();
 };
+
+export const fetchReportsByDate = async (date: string) => {
+  const response = await fetch(`${API_BASE_URL}/api/reports?date=${date}`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch reports: ${response.status}`);
+  }
+  return response.json();
+};

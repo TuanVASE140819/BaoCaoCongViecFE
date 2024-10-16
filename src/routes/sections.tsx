@@ -10,6 +10,7 @@ import { DashboardLayout } from 'src/layouts/dashboard';
 import PrivateRoute from 'src/routes/PrivateRoute';
 import RolesPage from 'src/pages/roles';
 import ReportPage from 'src/pages/report';
+import ReportManagementPage from 'src/pages/ReportManagementPage';
 
 // ----------------------------------------------------------------------
 
@@ -54,6 +55,7 @@ export function Router() {
         { path: 'blog', element: <BlogPage /> },
         { path: 'roles', element: <RolesPage /> },
         { path: 'report', element: <ReportPage /> },
+        { path: 'manage-reports', element: <ReportManagementPage /> },
       ],
     },
     {
