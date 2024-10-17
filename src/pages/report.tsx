@@ -96,8 +96,8 @@ export default function ReportPage() {
       try {
         const report = await fetchEmployeeReport(user._id, date);
         if (report.length > 0) {
-          setTodayReport(report[0].noiDungHomNay);
-          setTomorrowReport(report[0].noiDungDuKienNgayMai);
+          setTodayReport(report[0].noiDungHomNay.replace(/<br \/>/g, '\n'));
+          setTomorrowReport(report[0].noiDungDuKienNgayMai.replace(/<br \/>/g, '\n'));
           setReportId(report[0]._id); // Lưu lại ID của báo cáo
         } else {
           setTodayReport('');
@@ -126,8 +126,8 @@ export default function ReportPage() {
 
     const reportData = {
       ngayBaoCao: selectedDate,
-      noiDungHomNay: todayReport,
-      noiDungDuKienNgayMai: tomorrowReport,
+      noiDungHomNay: todayReport.replace(/\n/g, '<br />'),
+      noiDungDuKienNgayMai: tomorrowReport.replace(/\n/g, '<br />'),
       IDnhanVien: user._id,
     };
 

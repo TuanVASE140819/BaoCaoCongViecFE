@@ -5,7 +5,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Typography,
   Paper,
   TableContainer,
 } from '@mui/material';
@@ -31,19 +30,23 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   fontWeight: 'bold',
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.common.white,
-  textAlign: 'center',
+  textAlign: 'left', // Căn nội dung bên trái
 }));
 
 const CenteredTableCell = styled(TableCell)(({ theme }) => ({
-  textAlign: 'center',
+  textAlign: 'left', // Căn nội dung bên trái
+}));
+
+const LeftAlignedTableCell = styled(TableCell)(({ theme }) => ({
+  textAlign: 'left', // Căn nội dung bên trái
 }));
 
 export const ReportList: React.FC<ReportListProps> = ({ reports }) => (
   <TableContainer component={Paper}>
-    <Table>
+    <Table className="print-table">
       <TableHead>
         <TableRow>
-          <StyledTableCell>Nhân viên</StyledTableCell>
+          <StyledTableCell className="left-align">Nhân viên</StyledTableCell>
           <StyledTableCell>Báo cáo hôm nay</StyledTableCell>
           <StyledTableCell>Kế hoạch ngày mai</StyledTableCell>
         </TableRow>
@@ -51,9 +54,15 @@ export const ReportList: React.FC<ReportListProps> = ({ reports }) => (
       <TableBody>
         {reports.map((report) => (
           <TableRow key={report._id}>
-            <CenteredTableCell>{report.IDnhanVien.tenNhanVien}</CenteredTableCell>
-            <CenteredTableCell>{report.noiDungHomNay}</CenteredTableCell>
-            <CenteredTableCell>{report.noiDungDuKienNgayMai}</CenteredTableCell>
+            <LeftAlignedTableCell className="left-align">
+              {report.IDnhanVien.tenNhanVien}
+            </LeftAlignedTableCell>
+            <CenteredTableCell>
+              <div dangerouslySetInnerHTML={{ __html: report.noiDungHomNay }} />
+            </CenteredTableCell>
+            <CenteredTableCell>
+              <div dangerouslySetInnerHTML={{ __html: report.noiDungDuKienNgayMai }} />
+            </CenteredTableCell>
           </TableRow>
         ))}
       </TableBody>
