@@ -47,3 +47,15 @@ export const fetchReportsByDate = async (date: string) => {
   }
   return response.json();
 };
+
+export const restartService = async () => {
+  const response = await fetch(`${API_BASE_URL}/restart`, {
+    method: 'POST',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to restart service: ${response.status}`);
+  }
+
+  return response.json();
+};

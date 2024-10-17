@@ -14,6 +14,8 @@ import {
 // ----------------------------------------------------------------------
 const user = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
+console.log('user', user);
+
 export const _myAccount = {
   id: user.id || '1',
   displayName: user.tenNhanVien || 'Guest',

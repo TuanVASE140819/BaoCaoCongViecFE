@@ -45,6 +45,7 @@
     "simplebar-react": "^3.2.6"
   },
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "@types/node": "^22.5.0",
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
