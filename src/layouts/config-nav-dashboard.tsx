@@ -11,25 +11,25 @@ export const navData = [
   {
     title: 'Dashboard',
     path: '/',
-    icon: icon('ic-analytics'),
+    icon: icon('ic-analytics1'),
   },
   {
     title: 'Chức vụ',
     path: '/roles',
-    icon: icon('ic-position'),
+    icon: icon('ic-position1'),
   },
   {
     title: 'User',
     path: '/user',
-    icon: icon('ic-user'),
+    icon: icon('ic-user1'),
   },
   {
-    title: 'Work Report',
+    title: 'Báo cáo công việc',
     path: '/report',
     icon: icon('ic-report'),
   },
   {
-    title: 'Manage Reports',
+    title: 'Quản lý báo cáo',
     path: '/manage-reports',
     icon: icon('ic-report'),
   },

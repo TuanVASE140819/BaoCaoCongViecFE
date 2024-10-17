@@ -138,6 +138,7 @@ export default function ReportPage() {
         await createReport(reportData);
       }
       alert('Báo cáo đã được lưu thành công!');
+      fetchReport(selectedDate); // Fetch lại dữ liệu sau khi lưu báo cáo thành công
     } catch (error) {
       console.error('Error:', error);
       alert('Đã xảy ra lỗi khi lưu báo cáo.');
