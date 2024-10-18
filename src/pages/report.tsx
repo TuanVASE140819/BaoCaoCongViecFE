@@ -88,6 +88,7 @@ export default function ReportPage() {
   const [todayReport, setTodayReport] = useState('');
   const [tomorrowReport, setTomorrowReport] = useState('');
   const [reportId, setReportId] = useState<string | null>(null);
+  const [isReportNotFound, setIsReportNotFound] = useState(false);
 
   const user = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
@@ -99,13 +100,18 @@ export default function ReportPage() {
           setTodayReport(report[0].noiDungHomNay.replace(/<br \/>/g, '\n'));
           setTomorrowReport(report[0].noiDungDuKienNgayMai.replace(/<br \/>/g, '\n'));
           setReportId(report[0]._id); // Lưu lại ID của báo cáo
+          setIsReportNotFound(false);
         } else {
           setTodayReport('');
           setTomorrowReport('');
           setReportId(null);
+          setIsReportNotFound(true);
         }
       } catch (error) {
-        console.error('Failed to fetch report:', error);
+        setTodayReport('');
+        setTomorrowReport('');
+        setReportId(null);
+        setIsReportNotFound(true);
       }
     },
     [user._id]
@@ -176,7 +182,7 @@ export default function ReportPage() {
           Xóa báo cáo
         </Button>
         <Button variant="contained" color="primary" onClick={handleSave}>
-          Lưu báo cáo
+          {isReportNotFound ? 'Thêm báo cáo' : 'Lưu báo cáo'}
         </Button>
       </CardActions>
     </Box>

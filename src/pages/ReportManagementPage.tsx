@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Box, Typography, TextField, Button, Card, CardContent } from '@mui/material';
+import { Box, Typography, TextField, Button, Card, CardContent, Grid } from '@mui/material';
 import { fetchReportsByDate } from 'src/services/reportService';
 import { fetchNoteById, updateNoteById } from 'src/services/noteService';
 import { ReportList } from 'src/components/ReportList';
 import { Report } from 'src/types/report';
 import 'src/styles/print.css';
+import 'src/styles/fonts.css'; // Import file CSS chứa font chữ
 
 export default function ReportManagementPage() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -60,9 +61,11 @@ export default function ReportManagementPage() {
   }, [note]);
 
   useEffect(() => {
+    setReports([]); // Clear old reports
+    setNote(''); // Clear old note
     handleFetchReports();
     handleFetchNote();
-  }, [handleFetchReports, handleFetchNote]);
+  }, [selectedDate, handleFetchReports, handleFetchNote]);
 
   const handlePrint = () => {
     if (reportRef.current) {
@@ -81,44 +84,51 @@ export default function ReportManagementPage() {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3, fontFamily: 'Roboto, sans-serif' }}>
       <Typography variant="h4" gutterBottom>
         Quản lý báo cáo
       </Typography>
-      <Box sx={{ mb: 3 }}>
-        <TextField
-          label="Chọn ngày"
-          type="date"
-          value={selectedDate}
-          onChange={handleDateChange}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          sx={{ mr: 2 }}
-        />
-        <Button variant="contained" color="primary" onClick={handleFetchReports}>
-          Lấy báo cáo
-        </Button>
-        <Button variant="contained" color="secondary" onClick={handlePrint} sx={{ ml: 2 }}>
-          In báo cáo
-        </Button>
-      </Box>
+      <Grid container spacing={3} sx={{ mb: 3 }}>
+        <Grid item xs={12} md={6}>
+          <TextField
+            label="Chọn ngày"
+            type="date"
+            value={selectedDate}
+            onChange={handleDateChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} md={6} sx={{ display: 'flex', alignItems: 'center' }}>
+          <Button variant="contained" color="primary" onClick={handleFetchReports} sx={{ mr: 2 }}>
+            Lấy báo cáo
+          </Button>
+          <Button variant="contained" color="secondary" onClick={handlePrint}>
+            In báo cáo
+          </Button>
+        </Grid>
+      </Grid>
 
-      <Box sx={{ mb: 3 }}>
-        <TextField
-          label="Ghi chú"
-          multiline
-          rows={4}
-          value={note}
-          onChange={handleNoteChange}
-          fullWidth
-          variant="outlined"
-          sx={{ mb: 2 }}
-        />
-        <Button variant="contained" color="primary" onClick={handleSaveNote}>
-          Lưu ghi chú
-        </Button>
-      </Box>
+      <Grid container spacing={3} sx={{ mb: 3 }}>
+        <Grid item xs={12}>
+          <TextField
+            label="Ghi chú"
+            multiline
+            rows={4}
+            value={note}
+            onChange={handleNoteChange}
+            fullWidth
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button variant="contained" color="primary" onClick={handleSaveNote}>
+            Lưu ghi chú
+          </Button>
+        </Grid>
+      </Grid>
 
       {/* Khu vực sẽ được in */}
       <div ref={reportRef} className="print-container">
@@ -132,10 +142,7 @@ export default function ReportManagementPage() {
             </Typography>
           </CardContent>
         </Card>
-        <div className="print-header no-print" style={{ textAlign: 'left' }}>
-          <Typography variant="h5">Báo cáo công việc</Typography>
-          <Typography variant="subtitle1">Ngày: {selectedDate}</Typography>
-        </div>
+
         <ReportList reports={reports} />
       </div>
     </Box>

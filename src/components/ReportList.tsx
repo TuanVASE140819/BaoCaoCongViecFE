@@ -29,6 +29,7 @@ const CenteredTableCell = styled(TableCell)(({ theme }) => ({
 
 const LeftAlignedTableCell = styled(TableCell)(({ theme }) => ({
   textAlign: 'left',
+  width: '200px', // Adjust the width as needed
 }));
 
 export const ReportList: React.FC<ReportListProps> = ({ reports }) => (
@@ -36,7 +37,7 @@ export const ReportList: React.FC<ReportListProps> = ({ reports }) => (
     <Table className="print-table">
       <TableHead>
         <TableRow>
-          <StyledTableCell className="left-align">Nhân viên</StyledTableCell>
+          <LeftAlignedTableCell className="left-align">Nhân viên</LeftAlignedTableCell>
           <StyledTableCell>Báo cáo hôm nay</StyledTableCell>
           <StyledTableCell>Kế hoạch ngày mai</StyledTableCell>
         </TableRow>
