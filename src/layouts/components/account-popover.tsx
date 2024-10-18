@@ -1,6 +1,6 @@
 import type { IconButtonProps } from '@mui/material/IconButton';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,9 +14,8 @@ import MenuItem, { menuItemClasses } from '@mui/material/MenuItem';
 
 import { useRouter, usePathname } from 'src/routes/hooks';
 
-import { _myAccount } from 'src/_mock';
-
 import { useLogin } from 'src/hooks/useLogin';
+
 // ----------------------------------------------------------------------
 
 export type AccountPopoverProps = IconButtonProps & {
@@ -38,6 +37,36 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
 
   const [openPopover, setOpenPopover] = useState<HTMLButtonElement | null>(null);
 
+  const [myAccount, setMyAccount] = useState(() => {
+    const user = JSON.parse(localStorage.getItem('userInfo') || '{}');
+    return {
+      id: user.id || '1',
+      displayName: user.tenNhanVien || 'Guest',
+      email: user.email || ' ',
+      photoURL: user.photoURL || '/assets/images/avatar/avatar-default.webp',
+      role: user.role || ' ',
+    };
+  });
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const user = JSON.parse(localStorage.getItem('userInfo') || '{}');
+      setMyAccount({
+        id: user.id || '1',
+        displayName: user.tenNhanVien || 'Guest',
+        email: user.email || ' ',
+        photoURL: user.photoURL || '/assets/images/avatar/avatar-default.webp',
+        role: user.role || ' ',
+      });
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
   const handleOpenPopover = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setOpenPopover(event.currentTarget);
   }, []);
@@ -53,18 +82,29 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
     },
     [handleClosePopover, router]
   );
+
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const handleLogoutClick = () => {
     handleLogout();
     handleClose();
     //   xóa thông tin người dùng khỏi localStorage
     localStorage.removeItem('userInfo');
+    setMyAccount({
+      id: '1',
+      displayName: 'Guest',
+      email: ' ',
+      photoURL: '/assets/images/avatar/avatar-default.webp',
+      role: ' ',
+    });
   };
+
   return (
     <>
       <IconButton
@@ -79,8 +119,8 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
         }}
         {...other}
       >
-        <Avatar src={_myAccount.photoURL} alt={_myAccount.displayName} sx={{ width: 1, height: 1 }}>
-          {_myAccount.displayName.charAt(0).toUpperCase()}
+        <Avatar src={myAccount.photoURL} alt={myAccount.displayName} sx={{ width: 1, height: 1 }}>
+          {myAccount.displayName.charAt(0).toUpperCase()}
         </Avatar>
       </IconButton>
 
@@ -98,11 +138,11 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
       >
         <Box sx={{ p: 2, pb: 1.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {_myAccount?.displayName}
+            {myAccount?.displayName}
           </Typography>
 
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {_myAccount?.email}
+            {myAccount?.email}
           </Typography>
         </Box>
 

@@ -1,7 +1,7 @@
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
-import { _myAccount } from 'src/_mock/_data';
 import { _tasks, _posts, _timeline } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 
@@ -18,10 +18,40 @@ import { AnalyticsConversionRates } from '../analytics-conversion-rates';
 // ----------------------------------------------------------------------
 
 export function OverviewAnalyticsView() {
+  const [myAccount, setMyAccount] = useState(() => {
+    const user = JSON.parse(localStorage.getItem('userInfo') || '{}');
+    return {
+      id: user.id || '1',
+      displayName: user.tenNhanVien || 'Guest',
+      email: user.email || ' ',
+      photoURL: user.photoURL || '/assets/images/avatar/avatar-default.webp',
+      role: user.role || ' ',
+    };
+  });
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const user = JSON.parse(localStorage.getItem('userInfo') || '{}');
+      setMyAccount({
+        id: user.id || '1',
+        displayName: user.tenNhanVien || 'Guest',
+        email: user.email || ' ',
+        photoURL: user.photoURL || '/assets/images/avatar/avatar-default.webp',
+        role: user.role || ' ',
+      });
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
   return (
     <DashboardContent maxWidth="xl">
       <Typography variant="h4" sx={{ mb: { xs: 3, md: 5 } }}>
-        Hi, Welcome back {_myAccount.displayName} 👋
+        Hi, Welcome back {myAccount.displayName} 👋
       </Typography>
 
       <Grid container spacing={3}>

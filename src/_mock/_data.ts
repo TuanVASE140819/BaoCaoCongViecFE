@@ -12,20 +12,26 @@ import {
 } from './_mock';
 
 // ----------------------------------------------------------------------
+
 const user = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
-console.log('user', user);
+export const _myAccount = initializeMyAccount();
 
-export const _myAccount = {
-  id: user.id || '1',
-  displayName: user.tenNhanVien || 'Guest',
-  email: user.email || ' ',
-  photoURL: user.photoURL || '/assets/images/avatar/avatar-default.webp',
-  role: user.role || ' ',
-};
+function initializeMyAccount() {
+  const storedUser = JSON.parse(localStorage.getItem('userInfo') || '{}');
+  return {
+    id: storedUser.id || '1',
+    displayName: storedUser.tenNhanVien || 'Guest',
+    email: storedUser.email || ' ',
+    photoURL: storedUser.photoURL || '/assets/images/avatar/avatar-default.webp',
+    role: storedUser.role || ' ',
+  };
+}
 
 export const setMyAccount = (account: Partial<typeof _myAccount>) => {
   Object.assign(_myAccount, account);
+  const updatedUser = { ...user, ...account };
+  localStorage.setItem('userInfo', JSON.stringify(updatedUser));
 };
 
 // ----------------------------------------------------------------------
