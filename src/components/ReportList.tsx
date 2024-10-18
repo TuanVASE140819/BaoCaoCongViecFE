@@ -1,3 +1,4 @@
+// src/components/ReportList.tsx
 import React from 'react';
 import {
   Table,
@@ -9,18 +10,7 @@ import {
   TableContainer,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
-type Report = {
-  _id: string;
-  ngayBaoCao: string;
-  noiDungHomNay: string;
-  noiDungDuKienNgayMai: string;
-  IDnhanVien: {
-    _id: string;
-    tenNhanVien: string;
-    email: string;
-  };
-};
+import { Report } from 'src/types/report';
 
 type ReportListProps = {
   reports: Report[];
@@ -30,15 +20,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   fontWeight: 'bold',
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.common.white,
-  textAlign: 'left', // Căn nội dung bên trái
+  textAlign: 'left',
 }));
 
 const CenteredTableCell = styled(TableCell)(({ theme }) => ({
-  textAlign: 'left', // Căn nội dung bên trái
+  textAlign: 'left',
 }));
 
 const LeftAlignedTableCell = styled(TableCell)(({ theme }) => ({
-  textAlign: 'left', // Căn nội dung bên trái
+  textAlign: 'left',
 }));
 
 export const ReportList: React.FC<ReportListProps> = ({ reports }) => (

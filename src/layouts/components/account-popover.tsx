@@ -62,6 +62,8 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
   const handleLogoutClick = () => {
     handleLogout();
     handleClose();
+    //   xóa thông tin người dùng khỏi localStorage
+    localStorage.removeItem('userInfo');
   };
   return (
     <>

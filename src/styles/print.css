@@ -38,4 +38,17 @@
   .print-hide {
     display: none;
   }
+
+  .no-print {
+    display: none;
+  }
+  .print-only {
+    display: block !important;
+  }
+}
+
+@media screen {
+  .print-only {
+    display: none;
+  }
 }

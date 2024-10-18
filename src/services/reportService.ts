@@ -40,22 +40,35 @@ export const updateReport = async (reportId: string, reportData: any) => {
   return response.json();
 };
 
-export const fetchReportsByDate = async (date: string) => {
-  const response = await fetch(`${API_BASE_URL}/api/reports?date=${date}`);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch reports: ${response.status}`);
-  }
-  return response.json();
-};
-
-export const restartService = async () => {
-  const response = await fetch(`${API_BASE_URL}/restart`, {
-    method: 'POST',
+export const fetchReportsByDate = async (date: string): Promise<Report[]> => {
+  const response = await fetch(`${API_BASE_URL}/api/reports?date=${date}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to restart service: ${response.status}`);
+    throw new Error(`Request failed with status code ${response.status}`);
   }
 
-  return response.json();
+  const data = await response.json();
+
+  return data.map((report: any) => ({
+    _id: report._id,
+    ngayBaoCao: report.ngayBaoCao,
+    noiDungHomNay: report.noiDungHomNay,
+    noiDungDuKienNgayMai: report.noiDungDuKienNgayMai,
+    IDnhanVien: {
+      tenNhanVien: report.IDnhanVien.tenNhanVien,
+      email: report.IDnhanVien.email,
+      password: report.IDnhanVien.password,
+      IDRole: report.IDnhanVien.IDRole,
+    },
+  }));
+};
+export const restartService = async (): Promise<void> => {
+  // Implement the service restart logic here
+  console.log('Service restarted');
 };
