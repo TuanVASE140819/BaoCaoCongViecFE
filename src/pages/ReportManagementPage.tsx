@@ -114,7 +114,7 @@ export default function ReportManagementPage() {
       <Grid container spacing={3} sx={{ mb: 3 }}>
         <Grid item xs={12}>
           <TextField
-            label="Ghi chú"
+            label="Ghi chú của quản lý"
             multiline
             rows={4}
             value={note}
