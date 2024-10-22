@@ -6,6 +6,8 @@ import { ReportList } from 'src/components/ReportList';
 import { Report } from 'src/types/report';
 import 'src/styles/print.css';
 import 'src/styles/fonts.css'; // Import file CSS chứa font chữ
+import AccessDenied from 'src/components/AccessDenied';
+import { getUserInfo } from 'src/services/userService';
 
 export default function ReportManagementPage() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -82,6 +84,20 @@ export default function ReportManagementPage() {
   const handleSaveNote = () => {
     handleUpdateNote();
   };
+
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      const userInfo = await getUserInfo();
+      setUserRole(userInfo.IDRole.tenVaiTro);
+    };
+    fetchUserRole();
+  }, []);
+
+  if (userRole === 'Nhân viên') {
+    return <AccessDenied />;
+  }
 
   return (
     <Box sx={{ p: 3, fontFamily: 'Roboto, sans-serif' }}>

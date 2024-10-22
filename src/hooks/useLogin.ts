@@ -20,7 +20,11 @@ export function useLogin() {
         // lưu thông tin người dùng vào localStorage
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
 
-        router.push('/');
+        if (userInfo.IDRole.tenVaiTro === 'Nhân viên') {
+          router.push('/report');
+        } else {
+          router.push('/');
+        }
       } else {
         throw new Error('Đăng nhập thất bại!');
       }
@@ -30,6 +34,7 @@ export function useLogin() {
       setLoading(false);
     }
   };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userInfo'); // Xóa thông tin người dùng khỏi localStorage

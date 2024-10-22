@@ -1,16 +1,32 @@
-import { Helmet } from 'react-helmet-async';
-import { Box, Typography } from '@mui/material';
+// src/pages/menu.tsx
+import React from 'react';
+import { Box, Typography, List, ListItem, ListItemText } from '@mui/material';
+import { useUser } from 'src/hooks/useUser';
+import { menuConfig } from 'src/config/menuConfig';
 
-export default function MenuPage() {
+function MenuPage() {
+  const user = useUser();
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  const accessibleMenuItems = menuConfig[user.IDRole.tenVaiTro] || [];
+
   return (
     <>
-      <Helmet>
-        <title>Menu</title>
-      </Helmet>
       <Box>
         <Typography variant="h4">Menu Page</Typography>
-        {/* Nội dung của trang menu */}
+        <List>
+          {accessibleMenuItems.map((item) => (
+            <ListItem key={item}>
+              <ListItemText primary={item} />
+            </ListItem>
+          ))}
+        </List>
       </Box>
     </>
   );
 }
+
+export default MenuPage;

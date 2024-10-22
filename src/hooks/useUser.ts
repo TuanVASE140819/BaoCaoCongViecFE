@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getStaff } from 'src/services/staff';
+import { getUserInfo } from 'src/services/userService';
 import { Staff } from 'src/types/staff';
 
 export function useStaff() {
@@ -25,4 +26,18 @@ export function useStaff() {
   }, [fetchStaff]);
 
   return { staff, loading, error, fetchStaff };
+}
+
+export function useUser() {
+  const [user, setUser] = useState<Staff | null>(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const userInfo = await getUserInfo();
+      setUser(userInfo);
+    }
+    fetchUser();
+  }, []);
+
+  return user;
 }

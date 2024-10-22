@@ -1,12 +1,13 @@
 import type { Theme, SxProps, Breakpoint } from '@mui/material/styles';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import { useTheme } from '@mui/material/styles';
 
 import { _langs, _notifications } from 'src/_mock';
+import { getUserInfo } from 'src/services/userService';
 
 import { Iconify } from 'src/components/iconify';
 
@@ -37,8 +38,32 @@ export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) 
   const theme = useTheme();
 
   const [navOpen, setNavOpen] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   const layoutQuery: Breakpoint = 'lg';
+
+  useEffect(() => {
+    async function fetchUserRole() {
+      const userInfo = await getUserInfo();
+      setUserRole(userInfo.IDRole.tenVaiTro);
+    }
+    fetchUserRole();
+  }, []);
+
+  const accessibleNavData = navData.filter((item) => {
+    if (userRole === 'Quản trị viên') {
+      return true; // Quản trị viên có quyền truy cập tất cả các mục
+    }
+    if (userRole === 'Nhân viên') {
+      return (
+        item.path !== '/roles' &&
+        item.path !== '/user' &&
+        item.path !== '/manage-reports' &&
+        item.path !== '/'
+      );
+    }
+    return false;
+  });
 
   return (
     <LayoutSection
@@ -71,7 +96,7 @@ export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) 
                   }}
                 />
                 <NavMobile
-                  data={navData}
+                  data={accessibleNavData}
                   open={navOpen}
                   onClose={() => setNavOpen(false)}
                   workspaces={_workspaces}
@@ -111,7 +136,7 @@ export function DashboardLayout({ sx, children, header }: DashboardLayoutProps) 
        * Sidebar
        *************************************** */
       sidebarSection={
-        <NavDesktop data={navData} layoutQuery={layoutQuery} workspaces={_workspaces} />
+        <NavDesktop data={accessibleNavData} layoutQuery={layoutQuery} workspaces={_workspaces} />
       }
       /** **************************************
        * Footer
