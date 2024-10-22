@@ -19,7 +19,7 @@ export const navData = [
     icon: icon('ic-position1'),
   },
   {
-    title: 'User',
+    title: 'Nhân viên',
     path: '/user',
     icon: icon('ic-user1'),
   },

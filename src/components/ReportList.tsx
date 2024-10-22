@@ -18,8 +18,8 @@ type ReportListProps = {
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   fontWeight: 'bold',
-  backgroundColor: theme.palette.primary.main,
-  color: theme.palette.common.white,
+  // backgroundColor: theme.palette.primary.main,
+  // color: theme.palette.common.white,
   textAlign: 'left',
 }));
 
