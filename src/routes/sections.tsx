@@ -11,6 +11,7 @@ import PrivateRoute from 'src/routes/PrivateRoute';
 import RolesPage from 'src/pages/roles';
 import ReportPage from 'src/pages/report';
 import ReportManagementPage from 'src/pages/ReportManagementPage';
+import AttendancePage from 'src/pages/AttendancePage';
 
 // ----------------------------------------------------------------------
 
@@ -56,6 +57,7 @@ export function Router() {
         { path: 'roles', element: <RolesPage /> },
         { path: 'report', element: <ReportPage /> },
         { path: 'manage-reports', element: <ReportManagementPage /> },
+        { path: 'attendance', element: <AttendancePage /> }, // Add this line
       ],
     },
     {

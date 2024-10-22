@@ -33,6 +33,11 @@ export const navData = [
     path: '/manage-reports',
     icon: icon('ic-report'),
   },
+  {
+    title: 'Chấm công', // Add this section
+    path: '/attendance',
+    icon: icon('ic-attendance'),
+  },
   // {
   //   title: 'Product',
   //   path: '/products',
