@@ -21,8 +21,10 @@ export const createStaff = async (staffData: {
   email: string;
   password: string;
   IDRole: string;
+  ngaySinh: string;
+  nguoiTao: string;
 }): Promise<any> => {
-  const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+  const response = await fetch(`${API_BASE_URL}/api/users`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

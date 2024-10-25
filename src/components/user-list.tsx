@@ -69,6 +69,8 @@ export function UserList() {
     email: '',
     password: '',
     IDRole: '',
+    ngaySinh: '',
+    nguoiTao: '',
   });
   const [formErrors, setFormErrors] = useState({
     tenNhanVien: '',
@@ -120,6 +122,8 @@ export function UserList() {
       email: '',
       password: '',
       IDRole: '',
+      ngaySinh: '',
+      nguoiTao: '',
     }); // Clear input fields
     setSelectedEmployeeId(null);
     setOpen(false);
@@ -131,6 +135,8 @@ export function UserList() {
       email: employee.email,
       password: '', // Password should be empty for security reasons
       IDRole: employee.IDRole._id,
+      ngaySinh: employee.ngaySinh,
+      nguoiTao: employee.nguoiTao,
     });
     setSelectedEmployeeId(employee._id);
     setIsEditing(true);

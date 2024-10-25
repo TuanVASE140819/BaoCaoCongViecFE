@@ -10,5 +10,7 @@ export interface Staff {
   email: string;
   password: string;
   IDRole: Role;
+  ngaySinh: string; // Add ngaySinh
+  nguoiTao: string; // Add nguoiTao
   __v: number;
 }
