@@ -77,6 +77,7 @@ export function UserList() {
     email: '',
     password: '',
     IDRole: '',
+    ngaySinh: '',
   });
   const [isEditing, setIsEditing] = useState(false);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>(null);
@@ -135,7 +136,7 @@ export function UserList() {
       email: employee.email,
       password: '', // Password should be empty for security reasons
       IDRole: employee.IDRole._id,
-      ngaySinh: employee.ngaySinh,
+      ngaySinh: employee.ngaySinh ? employee.ngaySinh.split('T')[0] : '', // Handle date format
       nguoiTao: employee.nguoiTao,
     });
     setSelectedEmployeeId(employee._id);
@@ -175,6 +176,7 @@ export function UserList() {
       email: '',
       password: '',
       IDRole: '',
+      ngaySinh: '',
     };
 
     if (!newEmployee.tenNhanVien) {
@@ -188,6 +190,9 @@ export function UserList() {
     }
     if (!newEmployee.IDRole) {
       errors.IDRole = 'Chức vụ là bắt buộc';
+    }
+    if (!newEmployee.ngaySinh) {
+      errors.ngaySinh = 'Ngày sinh là bắt buộc';
     }
 
     setFormErrors(errors);
@@ -338,6 +343,20 @@ export function UserList() {
               onChange={(e) => setNewEmployee({ ...newEmployee, password: e.target.value })}
               error={!!formErrors.password}
               helperText={formErrors.password}
+            />
+            <TextField
+              margin="dense"
+              label="Ngày Sinh"
+              type="date"
+              fullWidth
+              variant="outlined"
+              value={newEmployee.ngaySinh}
+              onChange={(e) => setNewEmployee({ ...newEmployee, ngaySinh: e.target.value })}
+              error={!!formErrors.ngaySinh}
+              helperText={formErrors.ngaySinh}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
             <FormControl fullWidth margin="dense" error={!!formErrors.IDRole}>
               <InputLabel>Chức vụ</InputLabel>
