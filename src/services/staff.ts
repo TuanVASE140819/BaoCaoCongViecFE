@@ -50,6 +50,8 @@ export const updateStaff = async (
     email: string;
     password: string;
     IDRole: string;
+    ngaySinh: string;
+    nguoiTao: string;
   }
 ): Promise<any> => {
   const response = await fetch(`${API_BASE_URL}/api/users/${userId}`, {
