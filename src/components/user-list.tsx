@@ -31,6 +31,7 @@ import { createStaff, updateStaff, deleteStaff } from 'src/services/staff';
 import { Role } from 'src/types/role';
 import { Staff } from 'src/types/staff';
 import { styled } from '@mui/material/styles';
+import { Switch } from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   fontWeight: 'bold',
@@ -64,13 +65,16 @@ export function UserList() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
   const [roles, setRoles] = useState<Role[]>([]);
+
+  const UserInfor = JSON.parse(localStorage.getItem('userInfo') || '{}');
   const [newEmployee, setNewEmployee] = useState({
     tenNhanVien: '',
     email: '',
     password: '',
     IDRole: '',
     ngaySinh: '',
-    nguoiTao: '',
+    nguoiTao: UserInfor.tenNhanVien,
+    isActive: true,
   });
   const [formErrors, setFormErrors] = useState({
     tenNhanVien: '',
@@ -125,6 +129,7 @@ export function UserList() {
       IDRole: '',
       ngaySinh: '',
       nguoiTao: '',
+      isActive: true,
     }); // Clear input fields
     setSelectedEmployeeId(null);
     setOpen(false);
@@ -138,6 +143,7 @@ export function UserList() {
       IDRole: employee.IDRole._id,
       ngaySinh: employee.ngaySinh ? employee.ngaySinh.split('T')[0] : '', // Handle date format
       nguoiTao: employee.nguoiTao,
+      isActive: employee.isActive,
     });
     setSelectedEmployeeId(employee._id);
     setIsEditing(true);
@@ -372,6 +378,14 @@ export function UserList() {
                 ))}
               </Select>
               {formErrors.IDRole && <Typography color="error">{formErrors.IDRole}</Typography>}
+            </FormControl>
+            <FormControl fullWidth margin="dense">
+              <Typography component="div">Trạng thái hoạt động</Typography>
+              <Switch
+                checked={newEmployee.isActive}
+                onChange={(e) => setNewEmployee({ ...newEmployee, isActive: e.target.checked })}
+                color="primary"
+              />
             </FormControl>
           </DialogContent>
           <DialogActions>

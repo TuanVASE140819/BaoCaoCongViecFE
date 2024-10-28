@@ -23,6 +23,7 @@ export const createStaff = async (staffData: {
   IDRole: string;
   ngaySinh: string;
   nguoiTao: string;
+  isActive: boolean;
 }): Promise<any> => {
   const response = await fetch(`${API_BASE_URL}/api/users`, {
     method: 'POST',
@@ -52,6 +53,7 @@ export const updateStaff = async (
     IDRole: string;
     ngaySinh: string;
     nguoiTao: string;
+    isActive: boolean;
   }
 ): Promise<any> => {
   const response = await fetch(`${API_BASE_URL}/api/users/${userId}`, {

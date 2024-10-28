@@ -12,5 +12,6 @@ export interface Staff {
   IDRole: Role;
   ngaySinh: string; // Add ngaySinh
   nguoiTao: string; // Add nguoiTao
+  isActive: boolean; // Add isActive field
   __v: number;
 }
