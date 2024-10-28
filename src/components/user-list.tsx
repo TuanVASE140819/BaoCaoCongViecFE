@@ -73,7 +73,7 @@ export function UserList() {
     password: '',
     IDRole: '',
     ngaySinh: '',
-    nguoiTao: UserInfor.tenNhanVien,
+    nguoiTao: UserInfor.tenNhanVien || 'admin',
     isActive: true,
   });
   const [formErrors, setFormErrors] = useState({
