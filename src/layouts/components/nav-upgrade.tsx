@@ -25,7 +25,7 @@ export function NavUpgrade({ sx, ...other }: StackProps) {
           ),
         })}
       >
-        More features?
+        Quản lý nhân sự
       </Typography>
       {/* <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
         {`From only `}

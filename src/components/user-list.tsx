@@ -31,7 +31,7 @@ import { createStaff, updateStaff, deleteStaff } from 'src/services/staff';
 import { Role } from 'src/types/role';
 import { Staff } from 'src/types/staff';
 import { styled } from '@mui/material/styles';
-import { Switch } from '@mui/material';
+import { Chip, Switch } from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   fontWeight: 'bold',
@@ -272,6 +272,7 @@ export function UserList() {
                 <StyledTableCell>STT</StyledTableCell>
                 <StyledTableCell>Tên Nhân Viên</StyledTableCell>
                 <StyledTableCell>Email</StyledTableCell>
+                <StyledTableCell>Trạng thái</StyledTableCell>
                 <StyledTableCell>Hành Động</StyledTableCell>
               </TableRow>
             </TableHead>
@@ -281,6 +282,13 @@ export function UserList() {
                   <CenteredTableCell>{page * rowsPerPage + index + 1}</CenteredTableCell>
                   <CenteredTableCell>{member.tenNhanVien}</CenteredTableCell>
                   <CenteredTableCell>{member.email}</CenteredTableCell>
+                  <CenteredTableCell>
+                    {member.isActive ? (
+                      <Chip label="Hoạt động" color="success" />
+                    ) : (
+                      <Chip label="Không hoạt động" color="default" />
+                    )}
+                  </CenteredTableCell>
                   <CenteredTableCell>
                     <Button
                       variant="contained"
