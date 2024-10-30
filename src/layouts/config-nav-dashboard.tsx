@@ -38,6 +38,11 @@ export const navData = [
     path: '/attendance',
     icon: icon('ic-attendance'),
   },
+  {
+    title: 'Quản lý ngày nghỉ lễ', // Add this section
+    path: '/holiday-management',
+    icon: icon('ic-attendance'),
+  },
   // {
   //   title: 'Product',
   //   path: '/products',
